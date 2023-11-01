@@ -6,14 +6,13 @@ from flask import request
 from config import Config
 
 app = Flask(__name__)
-app.config['BABEL_DEFAULT_LOCALE'] = 'en'
 babel = Babel(app)
 app.config.from_object(Config)
 
 SUPPORTED_LANGUAGES = Config.LANGUAGES
 
 @babel.localeselector
-def get_locale():
+def get_locale() -> str:
     accepted_languages = request.accept_languages
 
     for lang in accepted_languages:
@@ -25,6 +24,7 @@ def get_locale():
 
 @app.route('/')
 def index():
+    '''rendering 3-index.html file.'''
     return render_template('3-index.html')
 
 if __name__ == '__main__':
