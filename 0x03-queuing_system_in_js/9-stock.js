@@ -31,6 +31,7 @@ const port = 1245;
 
 app.get('/list_products', (req, res) => {
   res.json(listProducts);
+});
 
 app.get('/list_products/:itemId', async (req, res) => {
   const itemId = parseInt(req.params.itemId);
@@ -39,7 +40,7 @@ app.get('/list_products/:itemId', async (req, res) => {
     return res.status(404).json({ status: 'Product not found' });
   }
   const currentReservedStock = await getCurrentReservedStockById(itemId);
-  res.json({ ...product, currentQuantity: product.initialAvailableQuantity - currentReservedStock });
+  res.json(Object.assign({}, product, { currentQuantity: product.initialAvailableQuantity - currentReservedStock }));
 });
 
 app.get('/reserve_product/:itemId', async (req, res) => {
